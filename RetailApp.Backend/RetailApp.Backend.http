@@ -1,0 +1,6 @@
+@RetailApp.Backend_HostAddress = http://localhost:5020
+
+GET {{RetailApp.Backend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
