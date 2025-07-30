@@ -1,6 +1,6 @@
 # RetailApp.Backend
 
-![Logo de RetailApp - Espacio para tu logo](https://www.canva.com/design/DAGup4ueN1w/RRHfkI0I2Dl8jcF_rRe0Jw/view?utm_content=DAGup4ueN1w&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h8585177f6a)
+![Logo de RetailApp - Espacio para tu logo](https://github.com/jherraizsoler/RetailApp.Backend/blob/master/Logo%20Backend.png)
 
 Este repositorio contiene el código fuente del backend (API RESTful) para **RetailApp**, una solución integral diseñada para una empresa internacional de ropa. El objetivo principal de este proyecto es proporcionar una API robusta y escalable que permita la gestión de productos, inventarios, usuarios, tiendas y pedidos, sirviendo como el cerebro de las operaciones digitales de la compañía.
 
