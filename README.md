@@ -131,11 +131,4 @@ Una vez que la aplicación esté en ejecución y Swagger UI abierta:
 
 Este proyecto está bajo la Licencia MIT. Consulta el archivo `LICENSE` para más detalles.
 
----
 
-Este `README.md` es un punto de partida. Puedes personalizarlo añadiendo:
-* Un logo real de RetailApp.
-* Más detalles sobre la visión de la empresa.
-* Instrucciones más detalladas para la configuración del entorno si hay dependencias específicas.
-* Sección de "Roadmap" si tienes planes futuros para el proyecto.
-* Capturas de pantalla de Swagger UI o de la base de datos.
