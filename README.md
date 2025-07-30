@@ -1,7 +1,9 @@
 # RetailApp.Backend    ![Logo de RetailApp - Espacio para tu logo](https://github.com/jherraizsoler/RetailApp.Backend/blob/master/Logo%20Backend.png)
 
 ➤ Actualmente se encuentra en desarrollo
+
 ➤ Version_1.0 - 29 de Julio de 2025 
+
 Este repositorio contiene el código fuente del backend (API RESTful) para **RetailApp**, una solución integral diseñada para una empresa internacional de ropa. El objetivo principal de este proyecto es proporcionar una API robusta y escalable que permita la gestión de productos, inventarios, usuarios, tiendas y pedidos, sirviendo como el cerebro de las operaciones digitales de la compañía.
 
 ## 🚀 Propósito del Proyecto
