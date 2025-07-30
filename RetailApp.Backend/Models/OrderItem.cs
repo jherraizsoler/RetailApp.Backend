@@ -14,7 +14,7 @@ namespace RetailApp.Backend.Models
         [Required] // Requerido (Required)
         [Column(TypeName = "decimal(10,2)")] // Tipo de dato decimal con 10 dígitos en total y 2 decimales (Decimal type with 10 digits in total and 2 decimals)
         public decimal PriceAtPurchase { get; set; } // Precio del artículo en el momento de la compra (Price of the item at the time of purchase)
-        
+
         // Propiedades de navegación
         public Order Order { get; set; } = default!; // Relación con el pedido (Relationship with the order)
         public ProductVariant ProductVariant { get; set; } = default!; // Relación con la variante del producto (Relationship with the product variant)

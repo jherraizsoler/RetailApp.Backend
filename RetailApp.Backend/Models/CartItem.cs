@@ -12,7 +12,7 @@ namespace RetailApp.Backend.Models
 
         [Required] // Atributo Required para asegurar que el campo no sea nulo
         public int Quantity { get; set; } // Cantidad del producto en el carrito
-        
+
         public DateTime AddedDate { get; set; } // Fecha en que se agregó el item al carrito
 
         // Propiedades de navegación para establecer relaciones con otras entidades

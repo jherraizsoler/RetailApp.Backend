@@ -1,4 +1,6 @@
-﻿namespace RetailApp.Backend.Interfaces
+﻿using RetailApp.Backend.Models;
+
+namespace RetailApp.Backend.Interfaces
 {
     public interface IUserService // Interfaz para el servicio de Usuarios
     {

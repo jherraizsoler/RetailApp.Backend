@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace RetailApp.Backend.Models
 {
@@ -29,6 +28,6 @@ namespace RetailApp.Backend.Models
         // Propiedad de navegación para la relación N:N con Product
         public ICollection<WarehouseProduct>? WarehouseProducts { get; set; }
 
-        
+
     }
 }

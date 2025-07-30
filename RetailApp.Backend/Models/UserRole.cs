@@ -15,7 +15,7 @@ namespace RetailApp.Backend.Models
         public int RoleId { get; set; } // Clave foránea a Role
 
 
-        
+
 
         // Propiedad de navegación
         public User User { get; set; } = default!; // Usuario asociado

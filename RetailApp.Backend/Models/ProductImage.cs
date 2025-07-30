@@ -6,13 +6,13 @@ namespace RetailApp.Backend.Models
     {
         [Key]
         public int Id { get; set; } // Unique identifier for the product image
-        
+
         public int ProductId { get; set; } // Foreign key to the associated product
 
         [Required]
         [StringLength(int.MaxValue)] // Maximum length for the image URL, allowing for very long URLs
         public string ImageUrl { get; set; } = string.Empty; // URL of the product image
-       
+
         public string? AltText { get; set; } // Alternative text for the image, useful for accessibility
 
         public int DisplayOrder { get; set; } = 0; // Order in which the image should be displayed, default is 0

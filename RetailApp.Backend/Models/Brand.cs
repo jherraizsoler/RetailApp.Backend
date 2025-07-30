@@ -1,6 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.Data;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace RetailApp.Backend.Models
 {
@@ -11,10 +9,10 @@ namespace RetailApp.Backend.Models
 
         [Required] // Marca Name como Requerido
         [StringLength(100)] // Limita la longitud de Name a 100 caracteres
-        
+
         public string Name { get; set; } = string.Empty; // Nombre de la marca
-        
-        
+
+
         [StringLength(500)] // Limita la longitud de Description a 255 caracteres
         public string? Description { get; set; } // Descripción de la marca (opcional)
 

@@ -9,10 +9,10 @@ namespace RetailApp.Backend.Models
         [Required] // Campo requerido (Required field)
         [StringLength(100)] // Longitud máxima de 100 caracteres (Maximum length of 100 characters)
         public string Name { get; set; } // Nombre de la categoría (Name of the category)
-        
+
         [StringLength(500)] // Longitud máxima de 500 caracteres (Maximum length of 500 characters)
         public string? Description { get; set; } // Descripción de la categoría (Description of the category)
-        
+
 
         public int? ParentCategoryId { get; set; } // Identificador de la categoría padre (Identifier of the parent category)
 

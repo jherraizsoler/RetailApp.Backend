@@ -23,7 +23,7 @@ namespace RetailApp.Backend.Models
         [StringLength(20)]
         public string? PhoneNumber { get; set; } // Número de Teléfono (puede ser nulo)
 
-   
+
         public DateTime RegistrationDate { get; set; } = DateTime.UtcNow; // Fecha de Registro (UTC)
         public DateTime? LastLoginDate { get; set; } // Última fecha de login (puede ser nula)
 

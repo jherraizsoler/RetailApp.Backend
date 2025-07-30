@@ -11,10 +11,10 @@ namespace RetailApp.Backend.Models
         [Required] // Campo requerido (Required field)
         [StringLength(50)] // Longitud máxima de 50 caracteres (Maximum length of 50 characters)
         public string SKUCode { get; set; } = string.Empty;  // Código SKU del producto variante (SKU code of the product variant)
-        
+
         [StringLength(50)] // Longitud máxima de 50 caracteres (Maximum length of 50 characters)
-        public  string? Barcode { get; set; } // Código de barras del producto variante (Barcode of the product variant)
-        
+        public string? Barcode { get; set; } // Código de barras del producto variante (Barcode of the product variant)
+
         [StringLength(50)] // Longitud máxima de 50 caracteres (Maximum length of 50 characters)
         public string? Color { get; set; } // Color del producto variante (Color of the product variant)
 

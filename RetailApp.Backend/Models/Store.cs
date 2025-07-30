@@ -28,6 +28,6 @@ namespace RetailApp.Backend.Models
         // Propiedad de navegación para la relación N:N con Product
         public ICollection<StoreProduct>? StoreProducts { get; set; }
 
- 
+
     }
 }

@@ -7,7 +7,7 @@ namespace RetailApp.Backend.Models
     {
         [Key] // Clave primaria (Primary Key)
         public int Id { get; set; } // Identificador único del pedido (Unique identifier for the order)
-        
+
         public int UserId { get; set; } // Identificador del usuario que realizó el pedido (Identifier of the user who placed the order)
 
         [Required] // Requerido (Required)
@@ -18,7 +18,7 @@ namespace RetailApp.Backend.Models
         public DateTime OrderDate { get; set; } = DateTime.UtcNow; // Fecha del pedido (Order date)
 
 
-       [Required]
+        [Required]
         [StringLength(50)]
         public string OrderStatus { get; set; } = "Pending"; // Estado del pedido (ej. Pending, Processing, Shipped, Delivered, Cancelled)
 

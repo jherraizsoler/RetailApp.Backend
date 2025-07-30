@@ -7,7 +7,7 @@ namespace RetailApp.Backend.Models
         [Key] // Atributo que indica que esta propiedad es la clave primaria
         public int Id { get; set; } // Identificador del carrito
         public int? UserId { get; set; } // Identificador del usuario propietario del carrito
-        
+
         public DateTime CreatedDate { get; set; } // Fecha de creación del carrito
         public DateTime? LastUpdateDate { get; set; } // Fecha de la última actualización del carrito
 
