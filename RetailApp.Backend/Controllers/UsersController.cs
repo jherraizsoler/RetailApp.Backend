@@ -9,11 +9,11 @@ namespace RetailApp.Backend.Controllers
 
     [Route("api/[controller]")] // Define la ruta base para el controlador (ej. /api/Users)
     [ApiController] // Indica que este controlador es un API Controller
-    public class UserController : ControllerBase //Hereda de ControllerBase para ser un controlador de API
+    public class UsersController : ControllerBase //Hereda de ControllerBase para ser un controlador de API
     {
         private readonly IUserService _userService; // Interfaz del servicio de usuario
         // Constructor que inyecta el servicio de usuario
-        public UserController(IUserService userService)
+        public UsersController(IUserService userService)
         {
             _userService = userService;
         }
