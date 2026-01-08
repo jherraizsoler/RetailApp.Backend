@@ -7,7 +7,14 @@ using RetailApp.Backend.Data;       // ¡Asegúrate de añadir esta línea para 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container. (Añadir servicios al contenedor.)
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler =
+            System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+        // Opcional: Para una mejor lectura del JSON en Swagger/Postman
+        options.JsonSerializerOptions.WriteIndented = true;
+    }); ;
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -27,6 +34,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // --- Inicia el bloque para registrar los servicios personalizados ---
 builder.Services.AddScoped<IUserService, UserService>();     // Registra IUserService con su implementación UserService
 builder.Services.AddScoped<IProductService, ProductService>(); // Registra IProductService con su implementación ProductService
+builder.Services.AddScoped<IStoreService, StoreService>(); // Registra IStoreService con su implementación StoreService
+builder.Services.AddScoped<IBrandService, BrandService>(); // Registra IBrandService con su implementación BrandService
+builder.Services.AddScoped<ICategoryService, CategoryService>(); // Registra ICategoryService con su implementación CategoryService
+builder.Services.AddScoped<ICollectionService, CollectionService>(); // Registra ICollectionService con su implementación CollectionService
 // Si implementaste StoreService, añade también esta línea:
 // builder.Services.AddScoped<IStoreService, StoreService>(); // Registra IStoreService con su implementación StoreService
 // Añade aquí los demás servicios que crees para otras entidades
