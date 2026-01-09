@@ -37,7 +37,6 @@ namespace RetailApp.Backend.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // ... (Mantén todas las configuraciones existentes aquí) ...
 
             // Configuración para UserRole (clave compuesta)
             modelBuilder.Entity<UserRole>()

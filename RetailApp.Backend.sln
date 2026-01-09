@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36327.8 d17.14
+VisualStudioVersion = 17.14.36327.8
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RetailApp.Backend", "RetailApp.Backend\RetailApp.Backend.csproj", "{16616CC4-082D-41AD-9130-F89B11479D85}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RetailApp.Tests", "RetailApp.Tests\RetailApp.Tests.csproj", "{080E51AE-478E-44AE-BCEE-248BD2BACA40}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{16616CC4-082D-41AD-9130-F89B11479D85}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16616CC4-082D-41AD-9130-F89B11479D85}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16616CC4-082D-41AD-9130-F89B11479D85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{080E51AE-478E-44AE-BCEE-248BD2BACA40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{080E51AE-478E-44AE-BCEE-248BD2BACA40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{080E51AE-478E-44AE-BCEE-248BD2BACA40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{080E51AE-478E-44AE-BCEE-248BD2BACA40}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
