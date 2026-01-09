@@ -23,6 +23,7 @@ namespace RetailApp.Backend.Services
             return await _context.Products
                 .Include(p => p.Brand) // Incluye la marca del producto
                 .Include(p => p.Category) // Incluye la categoría del producto
+                .AsNoTracking()
                 .ToListAsync();
 
         }
@@ -34,6 +35,7 @@ namespace RetailApp.Backend.Services
                 .Include(p => p.Brand)
                 .Include(p => p.Category)
                 .Include(p => p.Variants) // Incluye las variantes del producto
+                .AsNoTracking()
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 

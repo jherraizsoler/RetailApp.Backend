@@ -19,12 +19,16 @@ namespace RetailApp.Backend.Services
         public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
             // Obtiene todos los usuarios de la base de datos
-            return await _context.Users.ToListAsync();
+            return await _context.Users
+                .AsNoTracking()
+                .ToListAsync();
         }
 
         public async Task<User?> GetUserByIdAsync(int id)
         {
-            return await _context.Users.FindAsync(id);
+            return await _context.Users
+                .AsNoTracking()
+                .FirstOrDefaultAsync(u => u.Id == id);
         }
 
         public async Task<User> CreateUserAsync(User user)
