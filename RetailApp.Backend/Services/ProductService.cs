@@ -17,15 +17,9 @@ namespace RetailApp.Backend.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<Product>> GetAllProductsAsync()
+        public IQueryable<Product> GetAllProducts()
         {
-            // Obtiene todos los productos, incluyendo su Brand y Category
-            return await _context.Products
-                .Include(p => p.Brand) // Incluye la marca del producto
-                .Include(p => p.Category) // Incluye la categoría del producto
-                .AsNoTracking()
-                .ToListAsync();
-
+            return _context.Products.AsNoTracking();
         }
 
         public async Task<Product?> GetProductByIdAsync(int id)
