@@ -38,6 +38,8 @@ builder.Services.AddScoped<IStoreService, StoreService>(); // Registra IStoreSer
 builder.Services.AddScoped<IBrandService, BrandService>(); // Registra IBrandService con su implementación BrandService
 builder.Services.AddScoped<ICategoryService, CategoryService>(); // Registra ICategoryService con su implementación CategoryService
 builder.Services.AddScoped<ICollectionService, CollectionService>(); // Registra ICollectionService con su implementación CollectionService
+builder.Services.AddScoped<IBrandService, BrandService>();
+builder.Services.AddScoped<ICartService, CartService>();
 // Si implementaste StoreService, añade también esta línea:
 // builder.Services.AddScoped<IStoreService, StoreService>(); // Registra IStoreService con su implementación StoreService
 // Añade aquí los demás servicios que crees para otras entidades
