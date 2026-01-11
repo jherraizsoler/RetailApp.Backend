@@ -22,54 +22,98 @@ namespace RetailApp.Backend.Controllers
         // GET: /api/Products
         // Method to get all products
         [HttpGet] // Defines the HTTP GET method for this action
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts(
-        [FromQuery] int? categoryId,
-        [FromQuery] int? brandId,
-        [FromQuery] string? search)
+        public async Task<ActionResult> GetProducts(
+            [FromQuery] int? categoryId,
+            [FromQuery] int? brandId,
+            [FromQuery] string? search,
+            [FromQuery] string? slug, // Nuevo filtro SEO
+            [FromQuery] bool onlyActive = true)
         {
-            // 1. Iniciamos la consulta diferida (IQueryable)
+            // 1. Iniciamos la consulta diferida
             var query = _productService.GetAllProducts();
 
-            // 2. Filtros dinámicos en el servidor SQL
-            if (categoryId.HasValue)
-            {
-                query = query.Where(p => p.CategoryId == categoryId.Value);
-            }
+            // 2. Filtros dinámicos
+            if (onlyActive) query = query.Where(p => p.IsActive);
 
-            if (brandId.HasValue)
-            {
-                query = query.Where(p => p.BrandId == brandId.Value);
-            }
+            if (categoryId.HasValue) query = query.Where(p => p.CategoryId == categoryId.Value);
+
+            if (brandId.HasValue) query = query.Where(p => p.BrandId == brandId.Value);
+
+            if (!string.IsNullOrEmpty(slug)) query = query.Where(p => p.URL_Slug == slug);
 
             if (!string.IsNullOrEmpty(search))
             {
-                query = query.Where(p => p.Name.Contains(search) || p.Description.Contains(search));
+                query = query.Where(p => p.Name.Contains(search) || p.ShortDescription.Contains(search));
             }
 
-            // 3. Eager Loading: Traemos la Marca y Categoría en un solo JOIN
-            // 4. Materialización: Ejecutamos el SQL final
+            // 3. Aplicamos Proyección (.Select) para evitar cargar LongDescription y SEO pesado
+            // Esto optimiza la RAM y el tráfico de red
             var products = await query
                 .Include(p => p.Brand)
                 .Include(p => p.Category)
+                .Include(p => p.ProductImages) // Eager Loading de imágenes
+                .Select(p => new {
+                    p.Id,
+                    p.Name,
+                    p.ShortDescription,
+                    p.BasePrice,
+                    p.MainImageUrl,
+                    p.URL_Slug,
+                    BrandName = p.Brand.Name,
+                    CategoryName = p.Category.Name,
+                    Images = p.ProductImages.Select(img => img.ImageUrl).ToList()
+                })
                 .ToListAsync();
 
             return Ok(products);
         }
 
-
-        // GET: /api/Products/5
-        [HttpGet("{id}")] // Defines the HTTP GET method to get a product by ID
-        public async Task<ActionResult<Product>> GetProduct(int id)
+        // GET: /api/Products/by-slug/laptop-gaming-pro
+        [HttpGet("by-slug/{slug}")]
+        public async Task<ActionResult<Product>> GetProductBySlug(string slug)
         {
-            var product = await _productService.GetProductByIdAsync(id);
+            // Buscamos el producto por su URL única
+            var product = await _productService.GetAllProducts()
+                .Include(p => p.Brand)
+                .Include(p => p.Category)
+                .Include(p => p.ProductImages)
+                .Include(p => p.Variants) // Aquí sí traemos las variantes (tallas, colores)
+                .FirstOrDefaultAsync(p => p.URL_Slug == slug);
+
             if (product == null)
             {
-                return NotFound(); // Returns 404 Not Found if the product does not exist
+                return NotFound(new { message = $"Producto con slug '{slug}' no encontrado." });
             }
-            return Ok(product); // Returns 200 OK with the found product
+
+            // Aquí devolvemos TODO, incluyendo la LongDescription que omitimos en el listado
+            return Ok(product);
         }
-        
-        
+
+
+        // GET: /api/Products/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Product>> GetProduct(int id)
+        {
+            // 1. Usamos el IQueryable para componer la consulta con sus relaciones
+            var product = await _productService.GetAllProducts()
+                .Include(p => p.Brand)
+                .Include(p => p.Category)
+                .Include(p => p.ProductImages)
+                .Include(p => p.Variants) // Traemos las variantes para el selector de tallas/colores
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            // 2. Validación de existencia
+            if (product == null)
+            {
+                return NotFound(new { message = $"El producto con ID {id} no existe." });
+            }
+
+            // 3. Aquí SÍ devolvemos el objeto Product completo (con LongDescription)
+            // porque estamos en la vista de detalle.
+            return Ok(product);
+        }
+
+
         // POST: /api/Products
         [HttpPost] // Defines the HTTP POST method to create a new product
         public async Task<ActionResult<Product>> PostProduct(Product product)
