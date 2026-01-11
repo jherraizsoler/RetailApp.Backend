@@ -108,7 +108,6 @@ namespace RetailApp.Backend.Controllers
             {
                 return NotFound(new { message = $"El producto con ID {id} no existe." });
             }
-
             // 3. Aquí SÍ devolvemos el objeto Product completo (con LongDescription)
             // porque estamos en la vista de detalle.
             return Ok(product);
