@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RetailApp.Backend.Interfaces;
 using RetailApp.Backend.Models;
 using System.Collections.Generic;
@@ -19,10 +20,24 @@ namespace RetailApp.Backend.Controllers
         }
         // GET: /api/Categories
         [HttpGet] // Defines the HTTP GET method for this action
-        public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
+        public async Task<ActionResult<IEnumerable<Category>>> GetCategories([FromQuery] string? search)
         {
-            var categories = await _categoryService.GetAllCategoriesAsync();
-            return Ok(categories); // Returns a 200 OK response with the list of categories
+            // 1. Iniciamos la consulta diferida
+            var query = _categoryService.GetAllCategories();
+
+            // 2. Filtro dinámico por nombre si se proporciona
+            if (!string.IsNullOrEmpty(search))
+            {
+                query = query.Where(c => c.Name.Contains(search));
+            }
+
+            // 3. Opcional: Podrías incluir los productos si fuera necesario
+            // query = query.Include(c => c.Products);
+
+            // 4. Ejecutamos la consulta en la base de datos
+            var categories = await query.ToListAsync();
+
+            return Ok(categories);
         }
         // GET: /api/Categories/5
         [HttpGet("{id}")] // Defines the HTTP GET method to get a category by ID

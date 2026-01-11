@@ -15,11 +15,11 @@ namespace RetailApp.Backend.Services
         {
             _context = context;
         }
-        public async Task<IEnumerable<Category>> GetAllCategoriesAsync()
+        public IQueryable<Category> GetAllCategories()
         {
-            // Obtiene todas las categorías
-            return await _context.Categories.ToListAsync();
+            return _context.Categories.AsNoTracking();
         }
+
         public async Task<Category?> GetCategoryByIdAsync(int id)
         {
             // Obtener una categoría por su ID
