@@ -50,11 +50,5 @@ namespace RetailApp.Backend.Models
         public ICollection<Inventory>? Inventories { get; set; } // Colección de inventarios asociados a la variante del producto (Collection of inventories associated with the product variant)
         public ICollection<CartItem>? CartItems { get; set; } // Colección de artículos del carrito asociados a la variante del producto (Collection of cart items associated with the product variant)
         public ICollection<OrderItem>? OrderItems { get; set; } // Colección de artículos de pedido asociados a la variante del producto (Collection of order items associated with the product variant)
-
-
-
-
-
-
     }
 }
