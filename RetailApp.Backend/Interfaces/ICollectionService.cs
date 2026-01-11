@@ -2,12 +2,18 @@
 
 namespace RetailApp.Backend.Interfaces
 {
-    public interface ICollectionService // Interfaz para el servicio de Colecciones
+    public interface ICollectionService
     {
-        Task<IEnumerable<Collection>> GetAllCollectionsAsync(); // Método para obtener todas las colecciones
-        Task<Collection?> GetCollectionByIdAsync(int id); // Método para obtener una colección por ID
-        Task<Collection> CreateCollectionAsync(Collection collection); // Método para crear una nueva colección
-        Task<bool> UpdateCollectionAsync(Collection collection); // Método para actualizar una colección existente
-        Task<bool> DeleteCollectionAsync(int id); // Método para eliminar una colección por ID
+        // CRUD de Colecciones
+        IQueryable<Collection> GetAllCollections();
+        Task<Collection?> GetCollectionBySlugAsync(string slug);
+        Task<Collection> CreateCollectionAsync(Collection collection);
+        Task<bool> UpdateCollectionAsync(Collection collection);
+        Task<bool> DeleteCollectionAsync(int id);
+
+        // Gestión de Productos en la Colección
+        Task<bool> AddProductToCollectionAsync(int collectionId, int productId);
+        Task<bool> RemoveProductFromCollectionAsync(int collectionId, int productId);
+        IQueryable<Product> GetProductsInCollection(string slug);
     }
 }
