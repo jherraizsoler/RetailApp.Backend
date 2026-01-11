@@ -15,10 +15,10 @@ namespace RetailApp.Backend.Services
         {
             _context = context;
         }
-        public async Task<IEnumerable<Brand>> GetAllBrandsAsync()
+        public IQueryable<Brand> GetAllBrands()
         {
-            // Obtiene todas las marcas
-            return await _context.Brands.ToListAsync();
+            // Retornamos la consulta lista para ser filtrada fuera
+            return _context.Brands.AsNoTracking();
         }
         public async Task<Brand?> GetBrandByIdAsync(int id)
         {
@@ -53,11 +53,23 @@ namespace RetailApp.Backend.Services
         }
         public async Task<bool> DeleteBrandAsync(int id)
         {
-            var brand = await GetBrandByIdAsync(id);
-            if (brand == null) return false; // Si no se encuentra la marca, retorna false
-            _context.Brands.Remove(brand);
-            await _context.SaveChangesAsync(); // Guarda los cambios en la base de datos
-            return true; // Retorna true si la eliminación fue exitosa
+            // En lugar de buscar el objeto completo, creamos una instancia mínima con el ID
+            var brand = new Brand { Id = id };
+
+            // Le decimos a Entity Framework que empiece a trackear este objeto 
+            // y luego lo marcamos para eliminar.
+            _context.Entry(brand).State = EntityState.Deleted;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                // Si el ID no existe en la DB, fallará al intentar borrarlo
+                return false;
+            }
         }
     }
 }

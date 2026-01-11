@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RetailApp.Backend.Interfaces;
 using RetailApp.Backend.Models;
 using System.Collections.Generic;
@@ -17,11 +18,18 @@ namespace RetailApp.Backend.Controllers
             _brandService = brandService;
         }
         // GET: /api/Brands
-        [HttpGet] // Defines the HTTP GET method for this action
-        public async Task<ActionResult<IEnumerable<Brand>>> GetBrands()
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Brand>>> GetBrands([FromQuery] string? search)
         {
-            var brands = await _brandService.GetAllBrandsAsync();
-            return Ok(brands); // Returns a 200 OK response with the list of brands
+            var query = _brandService.GetAllBrands(); // Supone que retorna IQueryable
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                query = query.Where(b => b.Name.Contains(search));
+            }
+
+            var brands = await query.ToListAsync();
+            return Ok(brands);
         }
 
         // GET: /api/Brands/5
