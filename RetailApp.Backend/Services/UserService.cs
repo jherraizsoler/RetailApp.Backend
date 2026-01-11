@@ -16,12 +16,10 @@ namespace RetailApp.Backend.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<User>> GetAllUsersAsync()
+        public IQueryable<User> GetAllUsers()
         {
-            // Obtiene todos los usuarios de la base de datos
-            return await _context.Users
-                .AsNoTracking()
-                .ToListAsync();
+            // Retornamos el DbSet como IQueryable. 
+            return _context.Users.AsNoTracking();
         }
 
         public async Task<User?> GetUserByIdAsync(int id)

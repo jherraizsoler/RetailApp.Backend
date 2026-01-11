@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RetailApp.Backend.Interfaces;
 using RetailApp.Backend.Models;
 using System.Collections.Generic;
@@ -20,24 +21,59 @@ namespace RetailApp.Backend.Controllers
         // GET: /api/Users
         //      Método para obtener todos los usuarios
         [HttpGet] // Define el método HTTP GET para esta acción
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult> GetUsers([FromQuery] string? search)
         {
-            // Obtiene todos los usuarios usando el servicio
-            var users = await _userService.GetAllUsersAsync();
-            return Ok(users); // Devuelve una respuesta 200 OK con la lista de usuarios
+            // 1. Iniciamos consulta diferida (IQueryable)
+            var query = _userService.GetAllUsers();
+
+            // 2. Filtros dinámicos usando tus campos: Email, FirstName, LastName
+            if (!string.IsNullOrEmpty(search))
+            {
+                query = query.Where(u => u.Email.Contains(search) ||
+                                         u.FirstName.Contains(search) ||
+                                         u.LastName.Contains(search));
+            }
+
+            // 3. PROYECCIÓN DE SEGURIDAD (Data Shaping)
+            // Seleccionamos campos específicos. PasswordHash se queda en la base de datos.
+            var users = await query
+                .Select(u => new {
+                    u.Id,
+                    u.Email,
+                    FullName = u.FirstName + " " + u.LastName, // Concatenación en el servidor
+                    u.PhoneNumber,
+                    u.RegistrationDate,
+                    u.IsActive,
+                    // Si necesitas contar roles:
+                    RolesCount = u.UserRoles != null ? u.UserRoles.Count : 0
+                })
+                .ToListAsync();
+
+            return Ok(users);
         }
 
         // GET: /api/Users/5
         [HttpGet("{id}")] // Define el método HTTP GET para obtener un usuario por ID
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult> GetUser(int id)
         {
-            // Obtiene un usuario por ID usando el servicio
-            var user = await _userService.GetUserByIdAsync(id);
-            if (user == null)
-            {
-                return NotFound(); // Devuelve 404 Not Found si el usuario no existe
-            }
-            return Ok(user); // Devuelve 200 OK con el usuario encontrado
+            // Buscamos y proyectamos en una sola operación
+            var user = await _userService.GetAllUsers()
+                .Select(u => new {
+                    u.Id,
+                    u.Email,
+                    u.FirstName,
+                    u.LastName,
+                    u.PhoneNumber,
+                    u.RegistrationDate,
+                    u.LastLoginDate,
+                    u.IsActive
+                    // PasswordHash queda EXCLUIDO aquí también
+                })
+                .FirstOrDefaultAsync(u => u.Id == id);
+
+            if (user == null) return NotFound();
+
+            return Ok(user);
         }
 
         // POST: /api/Users
