@@ -80,6 +80,7 @@ namespace RetailApp.Backend.Controllers
                 .Include(p => p.Variants) // Aquí sí traemos las variantes (tallas, colores)
                 .FirstOrDefaultAsync(p => p.URL_Slug == slug);
 
+
             if (product == null)
             {
                 return NotFound(new { message = $"Producto con slug '{slug}' no encontrado." });
