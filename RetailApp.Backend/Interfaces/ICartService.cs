@@ -1,10 +1,11 @@
 ﻿using RetailApp.Backend.Models;
+using System.Linq;
 
 namespace RetailApp.Backend.Interfaces
 {
     public interface ICartService // Interfaz para el servicio de Carrito de Compras
     {
-        Task<IEnumerable<CartItem>> GetCartItemsAsync(int userId); // Método para obtener los artículos del carrito de un usuario
+        IQueryable<CartItem> GetCartItems(int userId); // Método para obtener los artículos del carrito de un usuario
         Task<CartItem?> GetCartItemByIdAsync(int userId, int itemId); // Método para obtener un artículo del carrito por ID
         Task<CartItem> AddCartItemAsync(int userId, CartItem cartItem); // Método para agregar un artículo al carrito
         Task<bool> UpdateCartItemAsync(CartItem cartItem); // Método para actualizar un artículo en el carrito
