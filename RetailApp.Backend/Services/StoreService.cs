@@ -2,13 +2,10 @@
 using RetailApp.Backend.Data;
 using RetailApp.Backend.Interfaces;
 using RetailApp.Backend.Models;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace RetailApp.Backend.Services
 {
-    public class StoreService : IStoreService // Implementación del servicio de Tiendas
+    public class StoreService : IStoreService
     {
         private readonly ApplicationDbContext _context;
 
@@ -17,18 +14,18 @@ namespace RetailApp.Backend.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<Store>> GetAllStoresAsync()
+        // ✅ REFACTOR: Retornamos IQueryable y usamos AsNoTracking
+        public IQueryable<Store> GetAllStores()
         {
-            return await _context.Stores.ToListAsync();
+            return _context.Stores.AsNoTracking();
         }
 
         public async Task<Store?> GetStoreByIdAsync(int id)
         {
-            // Opcional: Incluir productos si es necesario
             return await _context.Stores
-                                 .Include(s => s.StoreProducts)!
-                                 .ThenInclude(sp => sp.Product) // Carga los productos asociados
-                                 .FirstOrDefaultAsync(s => s.Id == id);
+                .Include(s => s.StoreProducts)!
+                .ThenInclude(sp => sp.Product)
+                .FirstOrDefaultAsync(s => s.Id == id);
         }
 
         public async Task<Store> CreateStoreAsync(Store store)
@@ -48,28 +45,25 @@ namespace RetailApp.Backend.Services
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!_context.Stores.Any(e => e.Id == store.Id))
-                {
-                    return false;
-                }
-                else
-                {
-                    throw;
-                }
+                // ✅ REFACTOR: Any() es más rápido que buscar el objeto completo
+                return _context.Stores.Any(e => e.Id == store.Id) ? throw : false;
             }
         }
 
+        // ✅ REFACTOR: Implementación de Stub Delete (Sin SELECT previo)
         public async Task<bool> DeleteStoreAsync(int id)
         {
-            var store = await _context.Stores.FindAsync(id);
-            if (store == null)
-            {
-                return false;
-            }
+            var store = new Store { Id = id };
+            _context.Entry(store).State = EntityState.Deleted;
 
-            _context.Stores.Remove(store);
-            await _context.SaveChangesAsync();
-            return true;
+            try
+            {
+                return await _context.SaveChangesAsync() > 0;
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return false; // La tienda no existe
+            }
         }
     }
 }
